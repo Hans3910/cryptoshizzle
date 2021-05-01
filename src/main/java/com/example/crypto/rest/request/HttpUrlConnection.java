@@ -1,12 +1,15 @@
 package com.example.crypto.rest.request;
 
 import com.example.crypto.domain.model.Coin;
+import com.example.crypto.rest.resources.CoinDto;
 import com.example.crypto.service.CoinService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +31,7 @@ public class HttpUrlConnection {
     }
 
 
-    public void init() throws IOException {
+    public void init() throws IOException, ParseException {
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-Type", "application/json");
@@ -38,7 +41,7 @@ public class HttpUrlConnection {
         con.disconnect();
     }
 
-    private void readResponse(HttpURLConnection con) throws IOException {
+    private void readResponse(HttpURLConnection con) throws IOException, ParseException {
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
@@ -50,9 +53,9 @@ public class HttpUrlConnection {
         in.close();
     }
 
-    private void parseJson(String result) {
+    private void parseJson(String result) throws ParseException, JsonProcessingException {
         JSONParser parser = new JSONParser();
-        try {
+
             Object obj = parser.parse(result);
 
             // A JSON object. Key value pairs are unordered. JSONObject supports java.util.Map interface.
@@ -68,11 +71,8 @@ public class HttpUrlConnection {
             ObjectMapper mapper = new ObjectMapper()
                     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             for (Object next : coinList) {
-                Coin coin = mapper.readValue(next.toString(), Coin.class);
-                service.processCoin(coin);
+                CoinDto coin = mapper.readValue(next.toString(), CoinDto.class);
+                Coin updated = service.processCoin(coin);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

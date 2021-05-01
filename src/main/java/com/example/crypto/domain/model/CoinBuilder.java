@@ -1,7 +1,6 @@
 package com.example.crypto.domain.model;
 
 public final class CoinBuilder {
-    private String uuid;
     private String symbol;
     private double marketCap;
     private int tier;
@@ -13,13 +12,8 @@ public final class CoinBuilder {
     private CoinBuilder() {
     }
 
-    public static CoinBuilder aCoin() {
+    public static CoinBuilder coinBuilder() {
         return new CoinBuilder();
-    }
-
-    public CoinBuilder withUuid(String uuid) {
-        this.uuid = uuid;
-        return this;
     }
 
     public CoinBuilder withSymbol(String symbol) {
