@@ -1,7 +1,7 @@
 package com.example.crypto.service;
 
 import com.example.crypto.domain.model.Coin;
-import com.example.crypto.domain.repository.CoinRepository;
+import com.example.crypto.repository.CoinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.crypto.request;
+package com.example.crypto.rest.request;
 
 import com.example.crypto.domain.model.Coin;
 import com.example.crypto.service.CoinService;
