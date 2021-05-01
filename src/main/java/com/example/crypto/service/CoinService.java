@@ -47,9 +47,9 @@ public class CoinService {
         return repository.save(mapper.toModel(coin));
     }
 
-    public CoinDto findById(CoinDto dto) {
-        return repository.findById(dto.getId())
+    public CoinDto findById(long id) {
+        return repository.findById(id)
                 .map(coin -> mapper.toDto(coin))
-                .orElseThrow(() -> new CoinNotFoundException("Coin with id: " + dto.getId() + " not found."));
+                .orElseThrow(() -> new CoinNotFoundException("Coin with id: " + id + " not found."));
     }
 }
