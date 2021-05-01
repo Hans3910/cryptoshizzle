@@ -56,12 +56,12 @@ public class CoinServiceTest {
 
     @Test
     public void throwsCoinNotFoundExceptionWhenIdNotFound() {
-        assertThrows(CoinNotFoundException.class, () -> service.findById(mapper.toDto(coin)));
+        assertThrows(CoinNotFoundException.class, () -> service.findById(1L));
     }
 
     @Test(expected = CoinNotFoundException.class)
     public void throwsCoinNotFoundException() {
-        service.findById(mapper.toDto(coin));
+        service.findById(1L);
     }
 
     private static Coin create() {

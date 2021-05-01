@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("coins")
 public class CryptoRestController {
@@ -20,15 +21,18 @@ public class CryptoRestController {
     @Autowired
     HttpUrlConnection connection;
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public List<CoinDto> findAll() {
         return service.findAll();
     }
 
-    @CrossOrigin
     @PostMapping("/update")
     public void update() throws IOException, ParseException {
         connection.init();
+    }
+
+    @GetMapping("/{id}")
+    public CoinDto findById(@RequestParam long id) {
+        return service.findById(id);
     }
 }
