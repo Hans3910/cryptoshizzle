@@ -1,4 +1,4 @@
-package com.example.crypto.domain.repository;
+package com.example.crypto.repository;
 
 import com.example.crypto.domain.model.Coin;
 import org.springframework.data.repository.CrudRepository;

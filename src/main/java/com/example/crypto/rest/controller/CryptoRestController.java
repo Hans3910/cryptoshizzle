@@ -1,7 +1,7 @@
-package com.example.crypto.rest;
+package com.example.crypto.rest.controller;
 
 import com.example.crypto.domain.model.Coin;
-import com.example.crypto.request.HttpUrlConnection;
+import com.example.crypto.rest.request.HttpUrlConnection;
 import com.example.crypto.service.CoinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
