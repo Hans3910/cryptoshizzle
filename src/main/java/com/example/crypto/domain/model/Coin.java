@@ -1,5 +1,8 @@
 package com.example.crypto.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import net.bytebuddy.implementation.bind.annotation.Default;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,18 +15,18 @@ public class Coin {
     private Long id;
     private String name;
     private String symbol;
-    @Column(name = "marketCap", length = 100)
-    private double marketCap;
+    @Column(name = "market_cap", length = 100)
+    private Double marketCap;
     private int tier;
     private double price;
     private int rank;
-    @Column(name = "iconUrl", length = 100)
+    @Column(name = "icon_url", length = 100)
     private String iconUrl;
 
     public Coin() {
     }
 
-    public Coin(String symbol, double marketCap, int tier, double price, String name, int rank, String iconUrl) {
+    public Coin(String symbol, Double marketCap, int tier, double price, String name, int rank, String iconUrl) {
         this.symbol = symbol;
         this.marketCap = marketCap;
         this.tier = tier;
@@ -41,11 +44,11 @@ public class Coin {
         this.symbol = symbol;
     }
 
-    public double getMarketCap() {
+    public Double getMarketCap() {
         return marketCap;
     }
 
-    public void setMarketCap(double marketCap) {
+    public void setMarketCap(Double marketCap) {
         this.marketCap = marketCap;
     }
 

@@ -18,7 +18,7 @@ public class CryptoRestController {
     @Autowired
     HttpUrlConnection connection;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
     public List<Coin> findAll() {
         List<Coin> all = service.findAll();
@@ -30,6 +30,4 @@ public class CryptoRestController {
     public void update() throws IOException {
         connection.init();
     }
-
-
 }

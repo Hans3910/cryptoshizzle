@@ -20,7 +20,7 @@ public class DemoPersist {
         EntityManager entityManager = null;
         JSONParser parser = new JSONParser();
         try {
-            Object obj = parser.parse(new FileReader("/home/sven/IdeaProjects/crypto-shizzle/src/main/resources/model.json"));
+            Object obj = parser.parse(new FileReader("C:\\Users\\11900580\\Desktop\\java\\cryptoshizzle\\src\\main\\resources\\model.json"));
 
             // A JSON object. Key value pairs are unordered. JSONObject supports java.util.Map interface.
             JSONObject jsonObject = (JSONObject) obj;
