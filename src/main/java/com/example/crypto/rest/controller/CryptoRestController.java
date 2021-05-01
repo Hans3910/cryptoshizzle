@@ -2,7 +2,9 @@ package com.example.crypto.rest.controller;
 
 import com.example.crypto.domain.model.Coin;
 import com.example.crypto.rest.request.HttpUrlConnection;
+import com.example.crypto.rest.resources.CoinDto;
 import com.example.crypto.service.CoinService;
+import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +22,13 @@ public class CryptoRestController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
-    public List<Coin> findAll() {
-        List<Coin> all = service.findAll();
-        return all;
+    public List<CoinDto> findAll() {
+        return service.findAll();
     }
 
     @CrossOrigin
     @PostMapping("/update")
-    public void update() throws IOException {
+    public void update() throws IOException, ParseException {
         connection.init();
     }
-
-
 }
