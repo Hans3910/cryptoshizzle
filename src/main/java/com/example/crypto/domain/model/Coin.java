@@ -12,12 +12,12 @@ public class Coin {
     private Long id;
     private String name;
     private String symbol;
-    @Column(name = "marketCap", length = 100)
+    @Column(name = "market_cap", length = 100)
     private double marketCap;
     private int tier;
     private double price;
     private int rank;
-    @Column(name = "iconUrl", length = 100)
+    @Column(name = "icon_url", length = 100)
     private String iconUrl;
 
     public Coin() {

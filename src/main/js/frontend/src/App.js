@@ -39,7 +39,7 @@ function App() {
             render: (text, record) => {
                 console.log(record);
                 return (
-                    <img src={record.iconUrl} alt={'Icon'}/>
+                    <img src={record.iconUrl} alt={'Icon'} style={{ width: "200px", height: "auto"}}/>
                 );
             }
         }

@@ -26,11 +26,11 @@ CREATE TABLE `coins` (
                           `_id` smallint(6) NOT NULL AUTO_INCREMENT,
                           `name` varchar(61) DEFAULT NULL,
                           `symbol` varchar(6) DEFAULT NULL,
-                          `marketCap` double DEFAULT NULL,
+                          `market_cap` double DEFAULT NULL,
                           `tier` integer(1) DEFAULT NULL,
                           `price` double DEFAULT NULL,
                           `rank` integer DEFAULT NULL,
-                          `iconUrl` varchar(100) DEFAULT NULL,
+                          `icon_url` varchar(100) DEFAULT NULL,
                           PRIMARY KEY (`_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
