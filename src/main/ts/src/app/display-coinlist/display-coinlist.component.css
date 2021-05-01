@@ -1,0 +1,31 @@
+.coin-list {
+  display: flex;
+  justify-content: space-evenly;
+
+}
+
+h2 {
+  text-align: center;
+}
+
+li {
+  width: 400px;
+  list-style-type: none;
+}
+
+img {
+  width: 400px;
+  height: 500px;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.header-items {
+  display: flex;
+  justify-content: space-between;
+  border-bottom-style: double;
+  border-color: black;
+}

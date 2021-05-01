@@ -1,0 +1,11 @@
+<h1>Coinzzzz</h1>
+<ul class = "coin-list">
+  <li *ngFor="let coin of coins">
+    <a>
+      <h2>{{coin.name}}</h2>
+      <img [attr.src]="coin.iconUrl" alt="coinImage">
+    </a>
+    <p>marketCap: {{coin.marketCap}}</p>
+    <p>price: {{coin.price}}</p>
+    <p>Rank: {{coin.rank}} </p>
+</ul>
