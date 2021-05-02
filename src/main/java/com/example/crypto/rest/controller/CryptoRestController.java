@@ -32,7 +32,7 @@ public class CryptoRestController {
     }
 
     @GetMapping("/{id}")
-    public CoinDto findById(@RequestParam long id) {
+    public CoinDto findById(@PathVariable long id) {
         return service.findById(id);
     }
 }

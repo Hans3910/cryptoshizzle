@@ -24,8 +24,8 @@ DROP TABLE IF EXISTS `coins`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `coins` (
                           `_id` smallint(6) NOT NULL AUTO_INCREMENT,
-                          `name` varchar(61) DEFAULT NULL,
-                          `symbol` varchar(6) DEFAULT NULL,
+                          `name` varchar(60) DEFAULT NULL,
+                          `symbol` varchar(15) DEFAULT NULL,
                           `market_cap` double DEFAULT NULL,
                           `tier` integer(1) DEFAULT NULL,
                           `price` double DEFAULT NULL,
