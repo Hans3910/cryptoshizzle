@@ -1,16 +1,96 @@
-import React, {useEffect, useState} from "react";
-import {Table} from "antd";
+import React, { useEffect, useRef, useState } from "react";
 import { connect } from 'react-redux';
 import { fetchCoins } from '../actions/coinActions';
+import { Table, Input, Button, Space } from 'antd';
+import Highlighter from 'react-highlight-words';
+import { SearchOutlined } from '@ant-design/icons';
 
 function CoinsTable(props) {
-    const [data, setData] = useState([]);
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef();
+    useEffect(() => props.fetchCoins(), []);
+
+
+    const getColumnSearchProps = dataIndex => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+            <div style={{ padding: 8 }}>
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{ width: 188, marginBottom: 8, display: 'block' }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{ width: 90 }}
+                    >
+                        Search
+              </Button>
+                    <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+                        Reset
+              </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            confirm({ closeDropdown: false });
+                            setSearchText(selectedKeys[0]);
+                            setSearchedColumn(dataIndex);
+                        }}
+                    >
+                        Filter
+              </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+        onFilter: (value, record) =>
+            record[dataIndex]
+                ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+                : '',
+        onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+                setTimeout(() => searchInput.current.select(), 100);
+            }
+        },
+        render: text =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                text
+            ),
+    });
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+    };
+
+
+    const handleReset = clearFilters => {
+        clearFilters();
+        setSearchText('');
+    };
+
     const columns = [
         {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
             render: text => <a>{text}</a>,
+            ...getColumnSearchProps('name')
         },
         {
             title: 'Symbol',
@@ -30,7 +110,9 @@ function CoinsTable(props) {
         {
             title: 'Price',
             dataIndex: 'price',
-            key: 'price'
+            key: 'price',
+            defaultSortOrder: 'descend',
+            sorter: (a, b) => a.price - b.price,
         },
         {
             title: 'Icon',
@@ -38,17 +120,17 @@ function CoinsTable(props) {
             key: 'iconUrl',
             render: (text, record) => {
                 return (
-                    <img src={record.iconUrl} alt={'Icon'} style={{ width: "35px", height: "auto"}}/>
+                    <img src={record.iconUrl} alt={'Icon'} style={{ width: "35px", height: "auto" }} />
                 );
             }
         }
-    ]
+    ];
 
-    useEffect(() => props.fetchCoins(), []);
-
-    return (
-        <Table columns={columns} dataSource={props.coins}/>
-    );
+    return props.error
+        ? <div>Error! {props.error.message}</div>
+        : props.loading
+            ? <div>Loading...</div>
+            : <Table columns={columns} dataSource={props.coins} />;
 }
 
 const mapStateToProps = state => ({
