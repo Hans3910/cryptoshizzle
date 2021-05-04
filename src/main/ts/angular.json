@@ -120,5 +120,8 @@
       }
     }
   },
-  "defaultProject": "cryptoshizzle-front"
+  "defaultProject": "cryptoshizzle-front",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

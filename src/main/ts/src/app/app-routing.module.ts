@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {DisplayCoinlistComponent} from './display-coinlist/display-coinlist.component';
+import {CoinListComponent} from './coins/display-coinlist/coin-list.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/coins', pathMatch: 'full'},
-  { path: 'coins', component: DisplayCoinlistComponent},
+  { path: 'coins', component: CoinListComponent},
 ];
 
 @NgModule({
