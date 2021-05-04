@@ -6,7 +6,7 @@ import {Store} from '@ngrx/store';
 import * as CoinsActions from '../store/actions/coins.actions';
 
 import {State} from '../store/state/coin.state.';
-import {getCoins} from '../store/selectors/coins.selectors';
+import {getCoins, getShowCoinList} from '../store/selectors/coins.selectors';
 
 
 @Component({
@@ -16,6 +16,7 @@ import {getCoins} from '../store/selectors/coins.selectors';
 })
 export class CoinListComponent implements OnInit {
   coins$: Observable<Coin[]>;
+  displayCoinList$: Observable<boolean>;
 
   constructor(private coinService: CoinService,
               private store: Store<State>) {
@@ -24,10 +25,16 @@ export class CoinListComponent implements OnInit {
   ngOnInit(): void {
     this.coins$ = this.store.select(getCoins);
     this.store.dispatch(CoinsActions.loadCoins());
+    this.displayCoinList$ = this.store.select(getShowCoinList);
   }
 
   // public getAllCoins(): void {
   //   this.coinService.getAllCoins()
   //     .subscribe(coinList => this.coins = coinList);
   // }
+  checkChanged(): void {
+    this.store.dispatch(
+      CoinsActions.ShowList()
+    );
+  }
 }

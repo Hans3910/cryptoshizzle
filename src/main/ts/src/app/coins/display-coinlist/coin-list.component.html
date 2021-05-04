@@ -1,4 +1,14 @@
 <h1>Coinzzzz</h1>
+<div class="form-check col-md-7">
+  <label>
+    <input class="form-check-input"
+           type="checkbox"
+           (change)="checkChanged()"
+           [checked]="displayCoinList$ | async">
+    Display Coins
+  </label>
+</div>
+<ng-container *ngIf="displayCoinList$ | async">
 <ul class = "coin-list">
   <li *ngFor="let coin of coins$ | async">
     <a>
@@ -9,3 +19,4 @@
     <p>price: {{coin.price}}</p>
     <p>Rank: {{coin.rank}} </p>
 </ul>
+</ng-container>

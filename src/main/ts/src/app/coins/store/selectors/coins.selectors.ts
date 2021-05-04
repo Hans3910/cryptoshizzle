@@ -7,3 +7,8 @@ export const getCoins = createSelector(
   getCoinState,
   state => state.coins
 );
+
+export const getShowCoinList = createSelector(
+  getCoinState,
+  state => state.showCoinList
+);
