@@ -28,7 +28,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CoinServiceTest {
-    private Coin coin;
     @Mock
     private CoinRepository repository;
 
@@ -40,7 +39,7 @@ public class CoinServiceTest {
 
     @Before
     public void setup() throws Exception {
-        coin = create();
+        Coin coin = create();
         MockitoAnnotations.openMocks(service);
         when(repository.findAll()).thenReturn(Collections.singletonList(coin));
         when(mapper.toDto(any(Coin.class))).thenCallRealMethod();

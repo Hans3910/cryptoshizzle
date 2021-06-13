@@ -34,7 +34,7 @@ public class CryptoRestControllerTest {
     private MockMvc mockMvc;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         mockMvc = webAppContextSetup(this.wac).build();
     }
 
@@ -49,7 +49,7 @@ public class CryptoRestControllerTest {
 
     @Test
     public void testFindById() throws Exception {
-        MvcResult mvcResult = this.mockMvc.perform(get("/coins/138"))
+        this.mockMvc.perform(get("/coins/138"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is("Bitcoin")))
                 .andReturn();
