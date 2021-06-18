@@ -13,7 +13,7 @@ const PageLayout = () => (
                 <Menu.Item key="3">Wallet</Menu.Item>
             </Menu>
         </Header>
-        <Content style={{ padding: '0 50px' }}>
+        <Content style={{ padding: '0 50px', height: '100vh' }}>
             <div className="site-layout-content"><CoinsTable/></div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Coins ©2021 Created by Sven</Footer>

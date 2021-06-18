@@ -1,3 +1,5 @@
+const setup = () => cy.visit('http://localhost:3000/coins');
+
 describe('Homepage & login', () => {
     it('Visits my homepage', () => {
         cy.visit('http://localhost:3000/');
@@ -7,9 +9,17 @@ describe('Homepage & login', () => {
     });
 });
 
+describe('Navigation', () => {
+    it('should contain 3 navigation items', function () {
+        setup();
+        cy.get('ul > li.ant-menu-item.ant-menu-item-only-child')
+            .should('have.length', 3);
+    });
+});
+
 describe('Table & filters', () => {
     it('Should filter on name', () => {
-        cy.visit('http://localhost:3000/coins');
+        setup();
 
         cy.get('.ant-table-filter-trigger-container')
             .find('span:first')

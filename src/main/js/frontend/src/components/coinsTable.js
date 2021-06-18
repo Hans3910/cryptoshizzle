@@ -2,12 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { connect } from 'react-redux';
 import { fetchCoins } from '../actions/coinActions';
 import { Table, Input, Button, Space } from 'antd';
+import Popup from "./generic/Popup";
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 
 function CoinsTable(props) {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [popup, setPopup] = useState({
+        visible: false, 
+        x: 0, y: 0
+      });
     const searchInput = useRef();
     useEffect(() => props.fetchCoins(), []);
 
@@ -32,10 +37,10 @@ function CoinsTable(props) {
                         style={{ width: 90 }}
                     >
                         Search
-              </Button>
+                    </Button>
                     <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
                         Reset
-              </Button>
+                    </Button>
                     <Button
                         type="link"
                         size="small"
@@ -46,7 +51,7 @@ function CoinsTable(props) {
                         }}
                     >
                         Filter
-              </Button>
+                    </Button>
                 </Space>
             </div>
         ),
@@ -126,11 +131,44 @@ function CoinsTable(props) {
         }
     ];
 
+    const onRow = record => ({
+        onContextMenu: event => {
+          event.preventDefault()
+          if (!popup.visible) {
+            document.addEventListener(`click`, function onClickOutside() {
+              setPopup({visible: false});
+              document.removeEventListener(`click`, onClickOutside)
+            })
+          }
+          setPopup({
+              record,
+              visible: true,
+              x: event.clientX,
+              y: event.clientY
+            });
+        }
+      })
+
     return props.error
         ? <div>Error! {props.error.message}</div>
         : props.loading
             ? <div>Loading...</div>
-            : <Table columns={columns} dataSource={props.coins} />;
+            : <div
+                className="site-dropdown-context-menu"
+                style={{
+                    textAlign: 'center',
+                    height: 200,
+                    lineHeight: '200px',
+                }}
+            >
+                <Table
+                    onRow={onRow}
+                    columns={columns} 
+                    dataSource={props.coins} />
+                <Popup {...popup}/>
+
+
+            </div>;
 }
 
 const mapStateToProps = state => ({
