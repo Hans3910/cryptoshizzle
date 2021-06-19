@@ -5,16 +5,39 @@ import { Table, Input, Button, Space } from 'antd';
 import Popup from "./generic/Popup";
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
+import { ToastContainer } from 'react-toastify';
 
 function CoinsTable(props) {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [popup, setPopup] = useState({
-        visible: false, 
+        visible: false,
         x: 0, y: 0
-      });
+    });
     const searchInput = useRef();
     useEffect(() => props.fetchCoins(), []);
+
+    const expandedRowRender = (record) => {
+        const columns = [
+            {
+                title: 'Name',
+                dataIndex: 'name',
+                key: 'name'
+            },
+            {
+                title: 'Market Cap',
+                dataIndex: 'marketCap',
+                key: 'marketCap'
+            },
+            {
+                title: 'Tier',
+                dataIndex: 'tier',
+                key: 'tier'
+            }
+        ]
+
+        return <Table columns={columns} dataSource={record} pagination={false} />;
+    };
 
 
     const getColumnSearchProps = dataIndex => ({
@@ -91,35 +114,6 @@ function CoinsTable(props) {
 
     const columns = [
         {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-            render: text => <a>{text}</a>,
-            ...getColumnSearchProps('name')
-        },
-        {
-            title: 'Symbol',
-            dataIndex: 'symbol',
-            key: 'symbol',
-        },
-        {
-            title: 'Market Cap',
-            dataIndex: 'marketCap',
-            key: 'marketCap',
-        },
-        {
-            title: 'Tier',
-            dataIndex: 'tier',
-            key: 'tier'
-        },
-        {
-            title: 'Price',
-            dataIndex: 'price',
-            key: 'price',
-            defaultSortOrder: 'descend',
-            sorter: (a, b) => a.price - b.price,
-        },
-        {
             title: 'Icon',
             dataIndex: 'iconUrl',
             key: 'iconUrl',
@@ -128,26 +122,37 @@ function CoinsTable(props) {
                     <img src={record.iconUrl} alt={'Icon'} style={{ width: "35px", height: "auto" }} />
                 );
             }
+        },
+        {
+            title: 'Symbol',
+            dataIndex: 'symbol',
+            key: 'symbol',
+        },
+        {
+            title: 'Price',
+            dataIndex: 'price',
+            key: 'price',
+            sorter: (a, b) => a.price - b.price,
         }
     ];
 
     const onRow = record => ({
         onContextMenu: event => {
-          event.preventDefault()
-          if (!popup.visible) {
-            document.addEventListener(`click`, function onClickOutside() {
-              setPopup({visible: false});
-              document.removeEventListener(`click`, onClickOutside)
-            })
-          }
-          setPopup({
-              record,
-              visible: true,
-              x: event.clientX,
-              y: event.clientY
+            event.preventDefault()
+            if (!popup.visible) {
+                document.addEventListener(`click`, function onClickOutside() {
+                    setPopup({ visible: false });
+                    document.removeEventListener(`click`, onClickOutside)
+                })
+            }
+            setPopup({
+                record,
+                visible: true,
+                x: event.clientX,
+                y: event.clientY
             });
         }
-      })
+    })
 
     return props.error
         ? <div>Error! {props.error.message}</div>
@@ -163,9 +168,14 @@ function CoinsTable(props) {
             >
                 <Table
                     onRow={onRow}
-                    columns={columns} 
+                    columns={columns}
+                    rowKey={ record => record.symbol}
+                    expandable={{
+                        expandedRowRender: record => expandedRowRender([record]),
+                    }}
                     dataSource={props.coins} />
-                <Popup {...popup}/>
+                <Popup {...popup} />
+                <ToastContainer/>
 
 
             </div>;
