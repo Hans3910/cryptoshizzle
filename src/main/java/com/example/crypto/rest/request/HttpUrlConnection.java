@@ -10,7 +10,12 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -20,8 +25,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-@Component
+@Configuration
+@EnableScheduling
 public class HttpUrlConnection {
+    private static final Logger LOGGER = LogManager.getLogger(HttpUrlConnection.class);
     private final URL url = new URL("https://api.coinranking.com/v2/coins");
 
     @Autowired
@@ -30,8 +37,9 @@ public class HttpUrlConnection {
     public HttpUrlConnection() throws MalformedURLException {
     }
 
-
+    @Scheduled(fixedRate = 300000)
     public void init() throws IOException, ParseException {
+        LOGGER.info("Updating coins");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-Type", "application/json");
